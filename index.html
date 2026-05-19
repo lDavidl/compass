@@ -3,38 +3,77 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Direction Finder</title>
+  <title>Compass</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <div class="container">
-    <h1>Direction Finder</h1>
+<div class="bg"></div>
 
-    <input
-      id="addressInput"
-      type="text"
-      placeholder="Enter address or place"
-    />
+<div class="app glass">
+  <div class="left-panel glass">
+    <div class="logo-row">
+      <div class="logo-dot"></div>
+      <h1>COMPASS</h1>
+    </div>
 
-    <button id="goButton">Find Direction</button>
+    <div class="input-group">
+      <input id="addressInput" type="text" placeholder="Enter address or place..." />
+      <button id="goButton">Navigate</button>
+    </div>
 
-    <button id="sensorButton">
+    <button id="sensorButton" class="enable-btn">
       Enable Compass
     </button>
 
-    <div class="compass-container">
-      <div id="arrow">▲</div>
-    </div>
+    <div class="info-card glass">
+      <div class="info-line">
+        <span>Status</span>
+        <span id="status">Waiting...</span>
+      </div>
 
-    <div class="info">
-      <p id="status">Waiting...</p>
-      <p id="distance"></p>
-      <p id="bearing"></p>
-      <p id="heading"></p>
+      <div class="info-line">
+        <span>Distance</span>
+        <span id="distance">--</span>
+      </div>
+
+      <div class="info-line">
+        <span>Bearing</span>
+        <span id="bearing">--</span>
+      </div>
+
+      <div class="info-line">
+        <span>Heading</span>
+        <span id="heading">--</span>
+      </div>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <div class="compass-wrapper">
+    <div class="compass">
+
+      <div class="ring-container">
+        <img class="ring" src="tick_ring_180_square.svg" />
+
+        <div class="direction-layer" id="directionLayer">
+          <img class="indicator north" src="Compass Indicator.svg" />
+          <img class="indicator east" src="Compass Indicator.svg" />
+          <img class="indicator south" src="Compass Indicator.svg" />
+          <img class="indicator west" src="Compass Indicator.svg" />
+
+          <div class="label north-label">N</div>
+          <div class="label east-label">E</div>
+          <div class="label south-label">S</div>
+          <div class="label west-label">W</div>
+        </div>
+
+        <img id="arrow" class="arrow" src="Black Arrow.png" />
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

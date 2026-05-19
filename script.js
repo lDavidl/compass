@@ -2,11 +2,13 @@ const statusEl = document.getElementById("status");
 const distanceEl = document.getElementById("distance");
 const bearingEl = document.getElementById("bearing");
 const headingEl = document.getElementById("heading");
-const arrowEl = document.getElementById("arrow");
 
 const addressInput = document.getElementById("addressInput");
 const goButton = document.getElementById("goButton");
 const sensorButton = document.getElementById("sensorButton");
+
+const arrowEl = document.getElementById("arrow");
+const directionLayer = document.getElementById("directionLayer");
 
 let userLat = null;
 let userLon = null;
@@ -21,11 +23,10 @@ navigator.geolocation.watchPosition(
   (pos) => {
     userLat = pos.coords.latitude;
     userLon = pos.coords.longitude;
-
     updateDirection();
   },
   (err) => {
-    statusEl.textContent = "GPS error: " + err.message;
+    statusEl.textContent = err.message;
   },
   {
     enableHighAccuracy: true,
@@ -43,7 +44,7 @@ sensorButton.addEventListener("click", async () => {
       const permission = await DeviceOrientationEvent.requestPermission();
 
       if (permission !== "granted") {
-        statusEl.textContent = "Compass permission denied";
+        statusEl.textContent = "Compass denied";
         return;
       }
     }
@@ -63,17 +64,16 @@ function handleOrientation(event) {
 
   if (event.webkitCompassHeading !== undefined) {
     heading = event.webkitCompassHeading;
-  }
-  else if (event.alpha !== null) {
+  } else if (event.alpha !== null) {
     heading = 360 - event.alpha;
   }
 
   if (heading !== undefined) {
     currentHeading = heading;
 
-    headingEl.textContent = `Phone heading: ${heading.toFixed(1)}°`;
+    headingEl.textContent = `${heading.toFixed(1)}°`;
 
-    updateArrow();
+    updateCompass();
   }
 }
 
@@ -91,7 +91,7 @@ goButton.addEventListener("click", async () => {
     const data = await response.json();
 
     if (!data.length) {
-      statusEl.textContent = "Address not found";
+      statusEl.textContent = "Not found";
       return;
     }
 
@@ -113,9 +113,7 @@ function updateDirection() {
     userLon === null ||
     targetLat === null ||
     targetLon === null
-  ) {
-    return;
-  }
+  ) return;
 
   targetBearing = calculateBearing(
     userLat,
@@ -131,17 +129,20 @@ function updateDirection() {
     targetLon
   );
 
-  bearingEl.textContent = `Target bearing: ${targetBearing.toFixed(1)}°`;
+  distanceEl.textContent = `${(distance / 1000).toFixed(2)} km`;
+  bearingEl.textContent = `${targetBearing.toFixed(1)}°`;
 
-  distanceEl.textContent = `Distance: ${(distance / 1000).toFixed(2)} km`;
-
-  updateArrow();
+  updateCompass();
 }
 
-function updateArrow() {
+function updateCompass() {
   const relativeAngle = targetBearing - currentHeading;
 
-  arrowEl.style.transform = `rotate(${relativeAngle}deg)`;
+  arrowEl.style.transform =
+    `translate(-50%,-80%) rotate(${relativeAngle}deg)`;
+
+  directionLayer.style.transform =
+    `rotate(${-currentHeading}deg)`;
 }
 
 function toRad(deg) {

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 605.634 605.634" width="605.634" height="605.634">
+  <!-- Centered indicator rectangle: slim, sharp-cornered, solid white, no background -->
+  <!-- Positioned just inside the tick ring, pointing upward from center -->
+  <rect
+    x="282.817"
+    y="55"
+    width="40"
+    height="340"
+    rx="0"
+    ry="0"
+    fill="#FFFFFF"
+  />
+</svg>
