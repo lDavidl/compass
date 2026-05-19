@@ -1,77 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Compass</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compass</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="bg"></div>
 
-<div class="app glass">
-  <div class="left-panel glass">
-    <div class="logo-row">
-      <div class="logo-dot"></div>
-      <h1>COMPASS</h1>
+<div class="shell">
+
+  <div class="topbar glass">
+    <div class="brand">
+      <div class="dot"></div>
+      <span>COMPASS</span>
     </div>
 
-    <div class="input-group">
-      <input id="addressInput" type="text" placeholder="Enter address or place..." />
+    <div class="controls">
+      <input id="addressInput" type="text" placeholder="Enter address or place">
       <button id="goButton">Navigate</button>
-    </div>
-
-    <button id="sensorButton" class="enable-btn">
-      Enable Compass
-    </button>
-
-    <div class="info-card glass">
-      <div class="info-line">
-        <span>Status</span>
-        <span id="status">Waiting...</span>
-      </div>
-
-      <div class="info-line">
-        <span>Distance</span>
-        <span id="distance">--</span>
-      </div>
-
-      <div class="info-line">
-        <span>Bearing</span>
-        <span id="bearing">--</span>
-      </div>
-
-      <div class="info-line">
-        <span>Heading</span>
-        <span id="heading">--</span>
-      </div>
+      <button id="sensorButton" class="secondary">Enable Compass</button>
     </div>
   </div>
 
-  <div class="compass-wrapper">
-    <div class="compass">
+  <div class="main">
 
-      <div class="ring-container">
-        <img class="ring" src="tick_ring_180_square.svg" />
+    <div class="compass-panel glass">
 
-        <div class="direction-layer" id="directionLayer">
-          <img class="indicator north" src="Compass Indicator.svg" />
-          <img class="indicator east" src="Compass Indicator.svg" />
-          <img class="indicator south" src="Compass Indicator.svg" />
-          <img class="indicator west" src="Compass Indicator.svg" />
+      <div class="compass-wrap">
 
-          <div class="label north-label">N</div>
-          <div class="label east-label">E</div>
-          <div class="label south-label">S</div>
-          <div class="label west-label">W</div>
+        <img src="tick_ring_180_square.svg" class="ring">
+
+        <div id="cardinalLayer" class="cardinal-layer">
+
+          <div class="cardinal north">
+            <img src="Compass Indicator.svg">
+            <span>N</span>
+          </div>
+
+          <div class="cardinal east">
+            <img src="Compass Indicator.svg">
+            <span>E</span>
+          </div>
+
+          <div class="cardinal south">
+            <img src="Compass Indicator.svg">
+            <span>S</span>
+          </div>
+
+          <div class="cardinal west">
+            <img src="Compass Indicator.svg">
+            <span>W</span>
+          </div>
+
         </div>
 
-        <img id="arrow" class="arrow" src="Black Arrow.png" />
+        <img id="arrow" src="Black Arrow.png" class="arrow">
+
+        <div class="center-glow"></div>
+
       </div>
 
     </div>
+
+    <div class="side glass">
+
+      <div class="card">
+        <div class="label">STATUS</div>
+        <div id="status" class="value">Waiting for destination</div>
+      </div>
+
+      <div class="card">
+        <div class="label">DISTANCE</div>
+        <div id="distance" class="value">--</div>
+      </div>
+
+      <div class="card">
+        <div class="label">TARGET BEARING</div>
+        <div id="bearing" class="value">--</div>
+      </div>
+
+      <div class="card">
+        <div class="label">PHONE HEADING</div>
+        <div id="heading" class="value">--</div>
+      </div>
+
+    </div>
+
   </div>
+
 </div>
 
 <script src="script.js"></script>

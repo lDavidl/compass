@@ -8,7 +8,7 @@ const goButton = document.getElementById("goButton");
 const sensorButton = document.getElementById("sensorButton");
 
 const arrowEl = document.getElementById("arrow");
-const directionLayer = document.getElementById("directionLayer");
+const cardinalLayer = document.getElementById("cardinalLayer");
 
 let userLat = null;
 let userLon = null;
@@ -29,22 +29,22 @@ navigator.geolocation.watchPosition(
     statusEl.textContent = err.message;
   },
   {
-    enableHighAccuracy: true,
-    maximumAge: 1000,
-    timeout: 10000,
+    enableHighAccuracy:true
   }
 );
 
 sensorButton.addEventListener("click", async () => {
-  try {
-    if (
+
+  try{
+
+    if(
       typeof DeviceOrientationEvent !== "undefined" &&
       typeof DeviceOrientationEvent.requestPermission === "function"
-    ) {
+    ){
       const permission = await DeviceOrientationEvent.requestPermission();
 
-      if (permission !== "granted") {
-        statusEl.textContent = "Compass denied";
+      if(permission !== "granted"){
+        statusEl.textContent = "Compass permission denied";
         return;
       }
     }
@@ -54,44 +54,49 @@ sensorButton.addEventListener("click", async () => {
 
     statusEl.textContent = "Compass enabled";
 
-  } catch (e) {
+  }catch(e){
     statusEl.textContent = "Compass error";
   }
+
 });
 
-function handleOrientation(event) {
+function handleOrientation(event){
+
   let heading;
 
-  if (event.webkitCompassHeading !== undefined) {
+  if(event.webkitCompassHeading !== undefined){
     heading = event.webkitCompassHeading;
-  } else if (event.alpha !== null) {
+  }else if(event.alpha !== null){
     heading = 360 - event.alpha;
   }
 
-  if (heading !== undefined) {
+  if(heading !== undefined){
     currentHeading = heading;
 
     headingEl.textContent = `${heading.toFixed(1)}°`;
 
     updateCompass();
   }
+
 }
 
-goButton.addEventListener("click", async () => {
+goButton.addEventListener("click", async ()=>{
+
   const query = addressInput.value.trim();
 
-  if (!query) return;
+  if(!query) return;
 
   statusEl.textContent = "Searching...";
 
-  try {
+  try{
+
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
 
     const response = await fetch(url);
     const data = await response.json();
 
-    if (!data.length) {
-      statusEl.textContent = "Not found";
+    if(!data.length){
+      statusEl.textContent = "Address not found";
       return;
     }
 
@@ -102,13 +107,15 @@ goButton.addEventListener("click", async () => {
 
     updateDirection();
 
-  } catch (e) {
+  }catch(e){
     statusEl.textContent = "Search failed";
   }
+
 });
 
-function updateDirection() {
-  if (
+function updateDirection(){
+
+  if(
     userLat === null ||
     userLon === null ||
     targetLat === null ||
@@ -129,31 +136,35 @@ function updateDirection() {
     targetLon
   );
 
-  distanceEl.textContent = `${(distance / 1000).toFixed(2)} km`;
+  distanceEl.textContent = `${(distance/1000).toFixed(2)} km`;
   bearingEl.textContent = `${targetBearing.toFixed(1)}°`;
 
   updateCompass();
+
 }
 
-function updateCompass() {
+function updateCompass(){
+
   const relativeAngle = targetBearing - currentHeading;
 
   arrowEl.style.transform =
-    `translate(-50%,-80%) rotate(${relativeAngle}deg)`;
+    `translate(-50%,-83%) rotate(${relativeAngle}deg)`;
 
-  directionLayer.style.transform =
+  cardinalLayer.style.transform =
     `rotate(${-currentHeading}deg)`;
+
 }
 
-function toRad(deg) {
+function toRad(deg){
   return deg * Math.PI / 180;
 }
 
-function toDeg(rad) {
+function toDeg(rad){
   return rad * 180 / Math.PI;
 }
 
-function calculateBearing(lat1, lon1, lat2, lon2) {
+function calculateBearing(lat1, lon1, lat2, lon2){
+
   const φ1 = toRad(lat1);
   const φ2 = toRad(lat2);
 
@@ -169,9 +180,11 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
   let θ = toDeg(Math.atan2(y, x));
 
   return (θ + 360) % 360;
+
 }
 
-function calculateDistance(lat1, lon1, lat2, lon2) {
+function calculateDistance(lat1, lon1, lat2, lon2){
+
   const R = 6371000;
 
   const φ1 = toRad(lat1);
@@ -188,4 +201,5 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   return R * c;
+
 }
