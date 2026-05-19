@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Direction Finder</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+    <h1>Direction Finder</h1>
+
+    <input
+      id="addressInput"
+      type="text"
+      placeholder="Enter address or place"
+    />
+
+    <button id="goButton">Find Direction</button>
+
+    <button id="sensorButton">
+      Enable Compass
+    </button>
+
+    <div class="compass-container">
+      <div id="arrow">▲</div>
+    </div>
+
+    <div class="info">
+      <p id="status">Waiting...</p>
+      <p id="distance"></p>
+      <p id="bearing"></p>
+      <p id="heading"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
